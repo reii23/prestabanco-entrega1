@@ -3,10 +3,20 @@ package com.prestabanco.managment.repositories;
 import com.prestabanco.managment.entities.ClientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository<ClientEntity, Long>{
-    ClientEntity findByRut(String rut);
-    ClientEntity findByEmail(String email);
-    ClientEntity findByAge(int age);
+import java.util.List;
+
+public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
+    public ClientEntity findByRut(String rut);
+    List<ClientEntity> findByAge(int age);
+    List<ClientEntity> findBySalaryGreaterThan(Long salary);
+
 }
+
+
+
+
+
+
+
 
 
