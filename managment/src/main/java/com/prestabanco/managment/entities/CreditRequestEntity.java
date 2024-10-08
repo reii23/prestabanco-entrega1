@@ -23,13 +23,28 @@ public class CreditRequestEntity {
     // personalInfo client
     private Long expenses;
 
+
+    // id type (first property, second property)
+    @Column(nullable = false)
+    private Long loanTypeId;
+
     // Loan information
-
-    // TO DO: pensar si loanType debe ser una clase aparte o no
-
     private String loanType; // first, second dwelling, etc
+    private Double requestedAmount;
+    private int termYears;
+    private Double interestRate;
+
+    // Loan status
     private String status; // loan approved, rejected, under review
 
-    // Documents
+    // Loan Type Requirements (ingresos, avaluo, historial crediticio)
+    private boolean incomeProof;
+    private boolean propertyValuation;
+    private boolean creditHistory;
+
+    // more requirements (loan type)
+    private boolean firstPropertyDeed; // first property (only loantype second property)
+    private boolean businessPlan; // business plan (only loantype comercial property)
+    private boolean renovationBudget; // presupuesto (only loan type remodelation)
 
 }

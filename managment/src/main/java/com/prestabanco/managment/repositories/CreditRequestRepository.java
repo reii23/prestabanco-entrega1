@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ClientRequestRepository extends JpaRepository<CreditRequestEntity, Long> {
+public interface CreditRequestRepository extends JpaRepository<CreditRequestEntity, Long> {
 
     // List all request by clientId
     // todas las solicitudes que realizó un cliente
