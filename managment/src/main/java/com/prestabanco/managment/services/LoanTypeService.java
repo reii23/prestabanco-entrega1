@@ -35,7 +35,7 @@ public class LoanTypeService {
     }
 
     // delete a loan type by id
-    public boolean deleteLoanType(Long id) {
+    public boolean deleteLoanTypeById(Long id) {
         try {
             loanTypeRepository.deleteById(id);
             return true;
