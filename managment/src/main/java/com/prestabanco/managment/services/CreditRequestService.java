@@ -27,4 +27,14 @@ public class CreditRequestService {
     public List<CreditRequestEntity> getRequestByClientId(Long clientId) {
         return creditRequestRepository.findByClientId(clientId);
     }
+
+    // find list of credit request by loanType
+    public List<CreditRequestEntity> getRequestByLoanType(String loanType) {
+        return creditRequestRepository.findByLoanType(loanType); // to do: se pedirá por clase o se guardará el loanTypeId?
+    }
+
+    // find list of credit request by state
+    public List<CreditRequestEntity> getRequestByState(String status) {
+        return creditRequestRepository.findByStatus(status);
+    }
 }

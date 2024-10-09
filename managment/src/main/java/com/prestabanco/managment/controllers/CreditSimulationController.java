@@ -16,7 +16,7 @@ public class CreditSimulationController {
     CreditSimulationService creditSimulationService;
 
     // endpoint to "post" something (data) in credit simulation
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<String> simulateCredit(@RequestBody CreditSimulationEntity creditSimulation) {
         creditSimulationService.saveSimulation(creditSimulation);
 
