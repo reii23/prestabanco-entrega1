@@ -14,7 +14,7 @@ public class CreditRequestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private Long id;
+    private Long idCreditRequest;
 
     // save the PK Client (clientId) to complete the fields
     @Column(nullable = false)
@@ -37,14 +37,17 @@ public class CreditRequestEntity {
     // Loan status
     private String status; // loan approved, rejected, under review
 
+
+    // TO DO: PENSAR DE QUE FORMA SE VAN A INGRESAR LOS ARCHIVOS PDF (SI EN LA MISMA SOLICITUD O SE CREARÁ UNA CLASE CLIENTDOCUMENTS)
+    //
     // Loan Type Requirements (ingresos, avaluo, historial crediticio)
-    private boolean incomeProof;
-    private boolean propertyValuation;
-    private boolean creditHistory;
+    // private boolean incomeProof;
+    // private boolean propertyValuation;
+    // private boolean creditHistory;
 
     // more requirements (loan type)
-    private boolean firstPropertyDeed; // first property (only loantype second property)
-    private boolean businessPlan; // business plan (only loantype comercial property)
-    private boolean renovationBudget; // presupuesto (only loan type remodelation)
+    // private boolean firstPropertyDeed; // first property (only loantype second property)
+    // private boolean businessPlan; // business plan (only loantype comercial property)
+    // private boolean renovationBudget; // presupuesto (only loan type remodelation)
 
 }

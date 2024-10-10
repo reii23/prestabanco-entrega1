@@ -2,6 +2,7 @@ package com.prestabanco.managment.services;
 
 import com.prestabanco.managment.entities.CreditRequestEntity;
 import com.prestabanco.managment.repositories.CreditRequestRepository;
+import com.prestabanco.managment.repositories.CreditSimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +14,19 @@ import java.util.Optional;
 public class CreditRequestService {
     @Autowired
     CreditRequestRepository creditRequestRepository;
+    @Autowired
+    private CreditSimulationRepository creditSimulationRepository;
 
-
+    // get all credit requests
     public ArrayList<CreditRequestEntity> getAllRequests() {
         return (ArrayList<CreditRequestEntity>) creditRequestRepository.findAll();
     }
 
-    public Optional<CreditRequestEntity> getRequestById(Long id){
+    public Optional<CreditRequestEntity> getRequestById(Long id) {
         return creditRequestRepository.findById(id);
-
     }
 
+    // get a credit request by clientId
     public List<CreditRequestEntity> getRequestByClientId(Long clientId) {
         return creditRequestRepository.findByClientId(clientId);
     }
@@ -37,4 +40,26 @@ public class CreditRequestService {
     public List<CreditRequestEntity> getRequestByState(String status) {
         return creditRequestRepository.findByStatus(status);
     }
+
+    // Save a new credit request
+    public CreditRequestEntity saveCreditRequest(CreditRequestEntity creditRequest) {
+        creditRequest.setStatus("in initial review");
+        return creditRequestRepository.save(creditRequest);
+    }
+
+    // update a credit request
+    public CreditRequestEntity updateCreditRequest(CreditRequestEntity creditRequest) {
+        return creditRequestRepository.save(creditRequest);
+    }
+
+    // delete a credit request by id
+    public boolean deleteCreditRequestById(Long id) {
+        try {
+            creditRequestRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
