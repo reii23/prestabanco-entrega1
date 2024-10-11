@@ -37,17 +37,28 @@ public class CreditRequestEntity {
     // Loan status
     private String status; // loan approved, rejected, under review
 
+    @Lob
+    @Column(name = "income_proof_pdf")
+    private byte[] incomeProofPdf;
 
-    // TO DO: PENSAR DE QUE FORMA SE VAN A INGRESAR LOS ARCHIVOS PDF (SI EN LA MISMA SOLICITUD O SE CREARÁ UNA CLASE CLIENTDOCUMENTS)
-    //
-    // Loan Type Requirements (ingresos, avaluo, historial crediticio)
-    // private boolean incomeProof;
-    // private boolean propertyValuation;
-    // private boolean creditHistory;
+    @Lob
+    @Column(name = "property_valutaion_pdf")
+    private byte[] propertyValuationPdf;
 
-    // more requirements (loan type)
-    // private boolean firstPropertyDeed; // first property (only loantype second property)
-    // private boolean businessPlan; // business plan (only loantype comercial property)
-    // private boolean renovationBudget; // presupuesto (only loan type remodelation)
+    @Lob
+    @Column(name = "credit_history_pdf")
+    private byte[] creditHistoryPdf;
 
+    @Lob
+    @Column(name = "first_propety_deed")
+    private byte[] firstPropertyDeedPdf;
+
+    @Lob
+    @Column(name = "business_plan")
+    private byte[] businessPlanPdf;
+
+    @Lob
+    @Column(name = "renovation_budget")
+    private byte[] renovationBudget;
+    
 }
