@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class CreditSimulationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCreditSimulation; // id de la simulacion de credito
-    private Long loanAmount; // monto prestamo deseado por el usuario
-    private int termYears; // plazo
-    private float interestRate; // tasa de interés
-    private int loanType; // tipo de préstamo solicitado
+    private Long idCreditSimulation; // id credit simulation
+    private Long loanAmount; //// loan amount by the user
+    private int termYears; // term in years (ex: 1,2,3 years)
+    private float interestRate; // interest rate
+    private int loanType;
 }

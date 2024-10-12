@@ -37,6 +37,8 @@ public class CreditRequestEntity {
     // Loan status
     private String status; // loan approved, rejected, under review
 
+
+    // DOCUMENTS: all documents for credit request in @Lob to work with bytes
     @Lob
     @Column(name = "income_proof_pdf")
     private byte[] incomeProofPdf;
@@ -50,15 +52,15 @@ public class CreditRequestEntity {
     private byte[] creditHistoryPdf;
 
     @Lob
-    @Column(name = "first_propety_deed")
+    @Column(name = "first_propety_deed_pdf")
     private byte[] firstPropertyDeedPdf;
 
     @Lob
-    @Column(name = "business_plan")
+    @Column(name = "business_plan_pdf")
     private byte[] businessPlanPdf;
 
     @Lob
-    @Column(name = "renovation_budget")
+    @Column(name = "renovation_budget_pdf")
     private byte[] renovationBudget;
-    
+
 }

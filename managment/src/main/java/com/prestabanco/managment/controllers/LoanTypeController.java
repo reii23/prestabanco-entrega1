@@ -27,13 +27,14 @@ public class LoanTypeController {
     }
 
     // get a loan type by loan type id
-
     @GetMapping("/{id}")
     public ResponseEntity<Optional<LoanTypeEntity>> getLoanTypeById(@PathVariable Long id){
         Optional<LoanTypeEntity> loanType  = loanTypeService.getLoanTypeById(id);
         return ResponseEntity.ok(loanType);
     }
 
+
+    // save a loan type by request body
     @PostMapping("/")
     public ResponseEntity<LoanTypeEntity> saveLoanType(@RequestBody LoanTypeEntity loanType){
         LoanTypeEntity loanTypeNew = loanTypeService.saveLoanType(loanType);

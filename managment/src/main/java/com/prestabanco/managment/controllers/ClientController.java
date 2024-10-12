@@ -33,7 +33,7 @@ public class ClientController {
         return ResponseEntity.ok(client);
     }
 
-    // save a new client
+    // HU2: NEW CLIENT REGISTER
     @PostMapping("/")
     public ResponseEntity<ClientEntity> saveClient(@RequestBody ClientEntity client) {
         ClientEntity clientNew = clientService.saveClient(client);

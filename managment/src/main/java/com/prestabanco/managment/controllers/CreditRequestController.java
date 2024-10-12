@@ -199,4 +199,28 @@ public class CreditRequestController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    // HU4: evaluate a credit request by executive
+    @PostMapping("/evaluate/{id}")
+    public ResponseEntity<String> evaluateCreditRequest(@PathVariable Long id) {
+        try {
+            String evaluationResult = creditRequestService.evaluateCreditRequest(id);
+            return ResponseEntity.ok(evaluationResult);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    // HU5: GET STATUS CREDIT REQUEST
+    @GetMapping("/{id}/status")
+    public ResponseEntity<String> getCreditRequestStatus(@PathVariable Long id) {
+        Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
+        if (creditRequest.isPresent()) {
+            String status = creditRequest.get().getStatus();
+            return ResponseEntity.ok(status);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credit request not found");
+        }
+    }
 }
+
