@@ -192,7 +192,7 @@ public class CreditRequestController {
         if (creditRequest.isPresent() && creditRequest.get().getRenovationBudget() != null) {
             byte[] pdfBytes = creditRequest.get().getBusinessPlanPdf();
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentType(MediaType.APPLICATION_PDF)
             headers.setContentDispositionFormData("attachement", "businessPlan.pdf");
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
