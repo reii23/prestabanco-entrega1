@@ -13,7 +13,7 @@ const getClientById = (id) => {
 };
 
 // register a new client
-const createClient = (client) => {
+const saveClient = (client) => {
     return axios.post(API_URL, client);
 };
 
@@ -30,7 +30,7 @@ const deleteClient = (id) => {
 export default {
     getAllClients,
     getClientById,
-    createClient,
+    saveClient,
     updateClient,
     deleteClient,
 };
