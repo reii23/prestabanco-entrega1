@@ -1,0 +1,13 @@
+import React from "react";
+
+const Home = () => {
+    return (
+        <div>
+            <h1>Bienvenido al Sistema de Gestión de Créditos</h1>
+            <p>Este sistema le permite gestionar clientes, solicitudes de crédito, y otros aspectos relacionados con los préstamos.</p>
+            <p>Use el menú lateral para navegar entre las diferentes secciones.</p>
+        </div>
+    );
+};
+
+export default Home;
