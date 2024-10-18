@@ -7,7 +7,7 @@ const ClientList = () => {
   const [clients, setClients] = useState([]);
   const navigate = useNavigate();
 
-  // Obtener lista de clientes desde el backend
+  // Get the list of clients from the API
   const fetchClients = async () => {
     try {
       const response = await clientService.getAllClients();
@@ -17,20 +17,25 @@ const ClientList = () => {
     }
   };
 
+  // When the component is mounted, the list of clients is obtained
   useEffect(() => {
     fetchClients();
   }, []);
 
+  // Delete a client by ID 
   const deleteClient = (id) => {
     clientService.deleteClient(id).then(() => {
       fetchClients();
     });
   };
 
+
+  // Edit a client by ID
   const editClient = (id) => {
     navigate(`/clients/edit/${id}`);
   };
 
+  // Add a new client
   const addClient = () => {
     navigate("/clients/add");
   };

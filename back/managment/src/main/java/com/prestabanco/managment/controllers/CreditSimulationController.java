@@ -4,13 +4,11 @@ import com.prestabanco.managment.entities.CreditSimulationEntity;
 import com.prestabanco.managment.services.CreditSimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/CreditSimulation") // url CreditSimulationController
+@CrossOrigin("*")
 public class CreditSimulationController {
     @Autowired
     CreditSimulationService creditSimulationService;
@@ -20,9 +18,6 @@ public class CreditSimulationController {
     public ResponseEntity<String> simulateCredit(@RequestBody CreditSimulationEntity creditSimulation) {
         creditSimulationService.saveSimulation(creditSimulation);
         double monthlyFee = creditSimulationService.calculateMonthlyFee(creditSimulation);
-        return ResponseEntity.ok("Monthly fee is: $ " + monthlyFee);
+        return ResponseEntity.ok(String.valueOf(monthlyFee));
     }
-
-
-
 }

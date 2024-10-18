@@ -66,22 +66,10 @@ public class CreditRequestController {
             @RequestParam("propertyValuationPdf") MultipartFile propertyValuationPdf,
             @RequestParam("creditHistoryPdf") MultipartFile creditHistoryPdf) throws IOException {
 
-        CreditRequestEntity creditRequest = new CreditRequestEntity();
-        creditRequest.setClientId(clientId);
-        creditRequest.setExpenses(expenses);
-        creditRequest.setLoanTypeId(loanTypeId);
-        creditRequest.setLoanType(loanType);
-        creditRequest.setRequestedAmount(requestedAmount);
-        creditRequest.setTermYears(termYears);
-        creditRequest.setInterestRate(interestRate);
-        creditRequest.setStatus(status);
-        creditRequest.setIncomeProofPdf(incomeProofPdf.getBytes());  // Guardar el archivo como byte[]
-        creditRequest.setPropertyValuationPdf(propertyValuationPdf.getBytes());
-        creditRequest.setCreditHistoryPdf(creditHistoryPdf.getBytes());
-
-        CreditRequestEntity savedRequest = creditRequestService.saveCreditRequest(creditRequest);
+        CreditRequestEntity savedRequest = creditRequestService.saveCreditRequest(clientId, expenses, loanTypeId, loanType, requestedAmount, termYears, interestRate, status, incomeProofPdf, propertyValuationPdf, creditHistoryPdf);
         return ResponseEntity.ok(savedRequest);
     }
+
 
     // Update a credit request
     @PutMapping("/{id}")
@@ -98,7 +86,7 @@ public class CreditRequestController {
 
     // Delete a credit request by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCreditRequestById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<Void> deleteCreditRequestById(@PathVariable Long id) {
         boolean isDeleted = creditRequestService.deleteCreditRequestById(id);
         if (isDeleted) {
             return ResponseEntity.noContent().build();

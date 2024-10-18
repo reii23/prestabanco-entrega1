@@ -8,7 +8,9 @@ import com.prestabanco.managment.repositories.CreditSimulationRepository;
 import com.prestabanco.managment.repositories.LoanTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,9 +52,20 @@ public class CreditRequestService {
     }
 
     // Save a new credit request
-    public CreditRequestEntity saveCreditRequest(CreditRequestEntity creditRequest) {
+    public CreditRequestEntity saveCreditRequest(Long clientId, Long expenses, Long loanTypeId, String loanType, Double requestedAmount, int termYears, Double interestRate, String status, MultipartFile incomeProofPdf, MultipartFile propertyValuationPdf, MultipartFile creditHistoryPdf) throws IOException {
+        CreditRequestEntity creditRequest = new CreditRequestEntity();
+        creditRequest.setClientId(clientId);
+        creditRequest.setExpenses(expenses);
+        creditRequest.setLoanTypeId(loanTypeId);
+        creditRequest.setLoanType(loanType);
+        creditRequest.setRequestedAmount(requestedAmount);
+        creditRequest.setTermYears(termYears);
+        creditRequest.setInterestRate(interestRate);
         creditRequest.setStatus("in initial review");
-        return creditRequestRepository.save(creditRequest);
+        creditRequest.setIncomeProofPdf(incomeProofPdf.getBytes());
+        creditRequest.setPropertyValuationPdf(propertyValuationPdf.getBytes());
+        creditRequest.setCreditHistoryPdf(creditHistoryPdf.getBytes());
+        return creditRequest;
     }
 
     // update a credit request
@@ -72,8 +85,7 @@ public class CreditRequestService {
 
     // HU4: Evaluate Credit Request
     public String evaluateCreditRequest(Long id) {
-        CreditRequestEntity request = creditRequestRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Credit request not found"));
+        CreditRequestEntity request = creditRequestRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Credit request not found"));
 
         // R1: Relation monthly fee/salary
         double cuotaIngreso = calculatePaymentToIncomeRatio(request);
@@ -108,7 +120,6 @@ public class CreditRequestService {
         // R5: Maxim month financy
 
 
-
         // R6: Age restriction
         if (!verifyAgeRestriction(request)) {
             request.setStatus("rejected");
@@ -122,15 +133,13 @@ public class CreditRequestService {
     }
 
     private double calculatePaymentToIncomeRatio(CreditRequestEntity request) {
-        ClientEntity client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        ClientEntity client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new IllegalArgumentException("Client not found"));
         double monthlyPayment = calculateMonthlyPayment(request.getRequestedAmount(), request.getInterestRate(), request.getTermYears());
         return monthlyPayment / client.getSalary();
     }
 
     private double calculateDebtToIncomeRatio(CreditRequestEntity request) {
-        ClientEntity client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        ClientEntity client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new IllegalArgumentException("Client not found"));
         double totalDebt = request.getExpenses(); // Assuming expenses represent current debts
         double newLoanPayment = calculateMonthlyPayment(request.getRequestedAmount(), request.getInterestRate(), request.getTermYears());
         return (totalDebt + newLoanPayment) / client.getSalary();
@@ -142,14 +151,12 @@ public class CreditRequestService {
     }
 
     private boolean verifyEmploymentStability(CreditRequestEntity request) {
-        ClientEntity client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        ClientEntity client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new IllegalArgumentException("Client not found"));
         return client.getSalary() != null && client.getSalary() > 0;  // Simulate employment stability check
     }
 
     private boolean verifyAgeRestriction(CreditRequestEntity request) {
-        ClientEntity client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        ClientEntity client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new IllegalArgumentException("Client not found"));
         int loanEndAge = client.getAge() + request.getTermYears();
         return loanEndAge <= 75; // The loan must end before the client reaches 75 years of age
     }

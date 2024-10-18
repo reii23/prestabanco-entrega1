@@ -7,6 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ open, toggleDrawer }) => {
@@ -27,6 +28,13 @@ const Sidebar = ({ open, toggleDrawer }) => {
                         <PeopleAltIcon />
                     </ListItemIcon>
                     <ListItemText primary="Clientes" />
+                </ListItemButton>
+
+                <ListItemButton onClick={() => navigate("/credit-simulation")}>
+                    <ListItemIcon>
+                        <AttachMoneyIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Simulación de Crédito" />
                 </ListItemButton>
             </List>
         </Box>
