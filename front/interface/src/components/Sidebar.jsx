@@ -8,45 +8,57 @@ import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ open, toggleDrawer }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  
+  const listOptions = () => (
+    <Box role="presentation" onClick={toggleDrawer(false)}>
+      <List>
+        <ListItemButton onClick={() => navigate("/home")}>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Inicio" />
+        </ListItemButton>
 
-    const listOptions = () => (
-        <Box role="presentation" onClick={toggleDrawer(false)}>
-            <List>
-                <ListItemButton onClick={() => navigate("/home")}>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Inicio" />
-                </ListItemButton>
+        {/* Clients Button option */}
+        <ListItemButton onClick={() => navigate("/clients")}>
+          <ListItemIcon>
+            <PeopleAltIcon />
+          </ListItemIcon>
+          <ListItemText primary="Clientes" />
+        </ListItemButton>
 
-                <ListItemButton onClick={() => navigate("/clients")}>
-                    <ListItemIcon>
-                        <PeopleAltIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Clientes" />
-                </ListItemButton>
 
-                <ListItemButton onClick={() => navigate("/credit-simulation")}>
-                    <ListItemIcon>
-                        <AttachMoneyIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Simulación de Crédito" />
-                </ListItemButton>
-            </List>
-        </Box>
-    );
+        {/* Credit Simulation button option */}
+        <ListItemButton onClick={() => navigate("/credit-simulation")}>
+          <ListItemIcon>
+            <AttachMoneyIcon />
+          </ListItemIcon>
+          <ListItemText primary="Simulación de Crédito" />
+        </ListItemButton>
 
-    return (
-        <div>
-            <Drawer anchor={"left"} open={open} onClose={toggleDrawer(false)}>
-                {listOptions()}
-            </Drawer>
-        </div>
-    );
+        {/* Loans Button option */}
+        <ListItemButton onClick={() => navigate("/loans")}>
+          <ListItemIcon>
+            <AccountBalanceIcon /> 
+          </ListItemIcon>
+          <ListItemText primary="Solicitudes de Crédito" />
+        </ListItemButton>
+      </List>
+    </Box>
+  );
+
+  return (
+    <div>
+      <Drawer anchor={"left"} open={open} onClose={toggleDrawer(false)}>
+        {listOptions()}
+      </Drawer>
+    </div>
+  );
 };
 
 export default Sidebar;

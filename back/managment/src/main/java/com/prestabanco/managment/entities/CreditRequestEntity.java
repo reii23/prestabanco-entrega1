@@ -23,7 +23,6 @@ public class CreditRequestEntity {
     // personalInfo client
     private Long expenses;
 
-
     // id type (first property, second property)
     @Column(nullable = false)
     private Long loanTypeId;
@@ -37,30 +36,32 @@ public class CreditRequestEntity {
     // Loan status
     private String status; // loan approved, rejected, under review
 
-
     // DOCUMENTS: all documents for credit request in @Lob to work with bytes
     @Lob
     @Column(name = "income_proof_pdf")
-    private byte[] incomeProofPdf;
+    private byte[] incomeProofPdf; // NEEDED FOR: all loans
 
     @Lob
-    @Column(name = "property_valutaion_pdf")
-    private byte[] propertyValuationPdf;
+    @Column(name = "property_valuation_pdf")
+    private byte[] propertyValuationPdf; // NEEDED FOR: first dwelling, second dwelling, commercial property,remodeling
 
     @Lob
     @Column(name = "credit_history_pdf")
-    private byte[] creditHistoryPdf;
+    private byte[] creditHistoryPdf; // NEEDED FOR: first dwelling, second dwelling
 
     @Lob
-    @Column(name = "first_propety_deed_pdf")
-    private byte[] firstPropertyDeedPdf;
+    @Column(name = "first_property_deed_pdf")
+    private byte[] firstPropertyDeedPdf; // NEEDED FOR: second dwelling
 
     @Lob
     @Column(name = "business_plan_pdf")
-    private byte[] businessPlanPdf;
+    private byte[] businessPlanPdf; // NEEDED FOR: property commercial
 
     @Lob
     @Column(name = "renovation_budget_pdf")
-    private byte[] renovationBudget;
+    private byte[] renovationBudgetPdf; // NEEDED FOR: remodeling
 
+    @Lob
+    @Column(name = "financial_state_busines_pdf")
+    private byte[] financialStateBusinessPdf; // NEEDED FOR: property commercial
 }

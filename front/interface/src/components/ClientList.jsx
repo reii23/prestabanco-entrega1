@@ -44,7 +44,7 @@ const ClientList = () => {
     <div>
       <h2>Lista de Clientes</h2>
       <Button variant="contained" color="primary" onClick={addClient}>
-        Añadir Cliente
+        Agregar Nuevo Cliente
       </Button>
       <TableContainer component={Paper} sx={{ marginTop: "2rem" }}>
         <Table>

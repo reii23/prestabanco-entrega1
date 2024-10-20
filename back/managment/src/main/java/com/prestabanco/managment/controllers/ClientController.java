@@ -4,6 +4,7 @@ package com.prestabanco.managment.controllers;
 import com.prestabanco.managment.entities.ClientEntity;
 import com.prestabanco.managment.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,5 +53,16 @@ public class ClientController {
     public ResponseEntity<Boolean> deleteClientById(@PathVariable Long id) throws Exception {
         var isDeleted = clientService.deleteClient(id);
         return ResponseEntity.noContent().build(); // ask
+    }
+
+    // get a client by RUT
+    @GetMapping("/rut/{rut}")
+    public ResponseEntity<ClientEntity> getClientByRut(@PathVariable String rut) {
+        ClientEntity client = clientService.getClientByRut(rut);
+        if (client != null) {
+            return ResponseEntity.ok(client);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

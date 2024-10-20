@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class CreditRequestController {
     }
 
     // get requests by client ID
-    @GetMapping("client/{clientId}")
+    @GetMapping("/client/{clientId}")
     public ResponseEntity<List<CreditRequestEntity>> getCreditRequestByClientId(@PathVariable Long clientId) {
         List<CreditRequestEntity> creditRequests = creditRequestService.getRequestByClientId(clientId);
         return ResponseEntity.ok(creditRequests);
@@ -62,14 +61,21 @@ public class CreditRequestController {
             @RequestParam("termYears") int termYears,
             @RequestParam("interestRate") Double interestRate,
             @RequestParam("status") String status,
-            @RequestParam("incomeProofPdf") MultipartFile incomeProofPdf,
-            @RequestParam("propertyValuationPdf") MultipartFile propertyValuationPdf,
-            @RequestParam("creditHistoryPdf") MultipartFile creditHistoryPdf) throws IOException {
-
-        CreditRequestEntity savedRequest = creditRequestService.saveCreditRequest(clientId, expenses, loanTypeId, loanType, requestedAmount, termYears, interestRate, status, incomeProofPdf, propertyValuationPdf, creditHistoryPdf);
+            @RequestParam(value = "incomeProofPdf", required = false) MultipartFile incomeProofPdf,
+            @RequestParam(value = "propertyValuationPdf", required = false) MultipartFile propertyValuationPdf,
+            @RequestParam(value = "creditHistoryPdf", required = false) MultipartFile creditHistoryPdf,
+            @RequestParam(value = "firstPropertyDeedPdf", required = false) MultipartFile firstPropertyDeedPdf,
+            @RequestParam(value = "businessPlanPdf", required = false) MultipartFile businessPlanPdf,
+            @RequestParam(value = "renovationBudgetPdf", required = false) MultipartFile renovationBudgetPdf,
+            @RequestParam(value = "financialStateBusinessPdf", required = false) MultipartFile financialStateBusinessPdf
+    ) throws IOException {
+        CreditRequestEntity savedRequest = creditRequestService.saveCreditRequest(
+                clientId, expenses, loanTypeId, loanType, requestedAmount, termYears, interestRate,
+                status, incomeProofPdf, propertyValuationPdf, creditHistoryPdf,
+                renovationBudgetPdf, businessPlanPdf, firstPropertyDeedPdf, financialStateBusinessPdf
+        );
         return ResponseEntity.ok(savedRequest);
     }
-
 
     // Update a credit request
     @PutMapping("/{id}")
@@ -99,7 +105,6 @@ public class CreditRequestController {
     @GetMapping("/{id}/incomeProofPdf")
     public ResponseEntity<byte[]> getIncomeProofPdf(@PathVariable Long id) {
         Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
-
         if (creditRequest.isPresent() && creditRequest.get().getIncomeProofPdf() != null) {
             byte[] pdfBytes = creditRequest.get().getIncomeProofPdf();
             HttpHeaders headers = new HttpHeaders();
@@ -110,7 +115,6 @@ public class CreditRequestController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     // get pdf property valuation in credit request
     @GetMapping("/{id}/propertyValuationPdf")
@@ -131,7 +135,6 @@ public class CreditRequestController {
     @GetMapping("/{id}/creditHistoryPdf")
     public ResponseEntity<byte[]> getCreditHistoryPdf(@PathVariable Long id) {
         Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
-
         if (creditRequest.isPresent() && creditRequest.get().getCreditHistoryPdf() != null) {
             byte[] pdfBytes = creditRequest.get().getCreditHistoryPdf();
             HttpHeaders headers = new HttpHeaders();
@@ -151,14 +154,14 @@ public class CreditRequestController {
             byte[] pdfBytes = creditRequest.get().getFirstPropertyDeedPdf();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "creditHistory.pdf");
+            headers.setContentDispositionFormData("attachment", "firstPropertyDeed.pdf");
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // get first property deed pdf in credit request
+    // get business plan pdf in credit request
     @GetMapping("/{id}/businessPlanPdf")
     public ResponseEntity<byte[]> getBusinessPlanPdf(@PathVariable Long id) {
         Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
@@ -166,7 +169,7 @@ public class CreditRequestController {
             byte[] pdfBytes = creditRequest.get().getBusinessPlanPdf();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachement", "businessPlan.pdf");
+            headers.setContentDispositionFormData("attachment", "businessPlan.pdf");
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
@@ -177,11 +180,11 @@ public class CreditRequestController {
     @GetMapping("/{id}/renovationBudgetPdf")
     public ResponseEntity<byte[]> getRenovationBudgetPdf(@PathVariable Long id) {
         Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
-        if (creditRequest.isPresent() && creditRequest.get().getRenovationBudget() != null) {
-            byte[] pdfBytes = creditRequest.get().getBusinessPlanPdf();
+        if (creditRequest.isPresent() && creditRequest.get().getRenovationBudgetPdf() != null) {
+            byte[] pdfBytes = creditRequest.get().getRenovationBudgetPdf();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachement", "businessPlan.pdf");
+            headers.setContentDispositionFormData("attachment", "renovationBudget.pdf");
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
@@ -211,4 +214,3 @@ public class CreditRequestController {
         }
     }
 }
-

@@ -4,6 +4,8 @@ import Home from "./components/Home";
 import ClientList from "./components/ClientList";
 import AddEditClient from "./components/AddEditClient";
 import CreditSimulation from "./components/CreditSimulation";
+import LoanList from "./components/LoanList";
+import AddCreditRequest from "./components/AddCreditRequest";
 import Sidebar from "./components/Sidebar";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
@@ -11,6 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
+
 
 
 const App = () => {
@@ -50,6 +53,9 @@ const App = () => {
           <Route path="/clients/add" element={<AddEditClient />} />
           <Route path="/clients/edit/:id" element={<AddEditClient />} />
           <Route path="/credit-simulation" element={<CreditSimulation />} />
+          <Route path="/loans" element={<LoanList />} /> 
+          <Route path="/loans/add" element={<AddCreditRequest />} />
+
         </Routes>
       </Box>
     </Router>
