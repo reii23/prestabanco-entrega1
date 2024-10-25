@@ -62,6 +62,6 @@ public class CreditRequestEntity {
     private byte[] renovationBudgetPdf; // NEEDED FOR: remodeling
 
     @Lob
-    @Column(name = "financial_state_busines_pdf")
+    @Column(name = "financial_state_business_pdf")
     private byte[] financialStateBusinessPdf; // NEEDED FOR: property commercial
 }
