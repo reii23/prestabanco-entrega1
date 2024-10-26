@@ -16,7 +16,13 @@ const createCreditRequest = (formData) => {
     });
 };
 
+const getCreditRequestStatus = (id) => {
+    return axios.get(`${API_URL}${id}/status`);
+};
+
+
 export default {
     getClientByRut,
     createCreditRequest,
+    getCreditRequestStatus,
 };

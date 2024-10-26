@@ -197,4 +197,16 @@ public class CreditRequestService {
         int totalPayments = termYears * 12;
         return (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -totalPayments));
     }
+
+
+    // get requests by RUT
+    public List<CreditRequestEntity> getRequestsByClientRut(String rut) {
+        ClientEntity client = clientRepository.findByRut(rut);
+        if (client != null) {
+            return creditRequestRepository.findByClientId(client.getId());
+
+        } else {
+            throw new IllegalArgumentException("Client with RUT  "+ rut + " not found");
+        }
+    }
 }

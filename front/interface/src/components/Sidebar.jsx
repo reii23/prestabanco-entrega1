@@ -8,12 +8,13 @@ import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ open, toggleDrawer }) => {
   const navigate = useNavigate();
-  
+
   const listOptions = () => (
     <Box role="presentation" onClick={toggleDrawer(false)}>
       <List>
@@ -32,7 +33,6 @@ const Sidebar = ({ open, toggleDrawer }) => {
           <ListItemText primary="Clientes" />
         </ListItemButton>
 
-
         {/* Credit Simulation button option */}
         <ListItemButton onClick={() => navigate("/credit-simulation")}>
           <ListItemIcon>
@@ -44,9 +44,17 @@ const Sidebar = ({ open, toggleDrawer }) => {
         {/* Loans Button option */}
         <ListItemButton onClick={() => navigate("/loans")}>
           <ListItemIcon>
-            <AccountBalanceIcon /> 
+            <AccountBalanceIcon />
           </ListItemIcon>
           <ListItemText primary="Solicitudes de Crédito" />
+        </ListItemButton>
+
+        {/* Credit Status Button option */}
+        <ListItemButton onClick={() => navigate("/creditstatus")}>
+          <ListItemIcon>
+            <AssignmentTurnedInIcon /> 
+          </ListItemIcon>
+          <ListItemText primary="Seguimiento de Estado" />
         </ListItemButton>
       </List>
     </Box>

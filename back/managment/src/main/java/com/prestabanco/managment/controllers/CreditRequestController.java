@@ -202,7 +202,6 @@ public class CreditRequestController {
         }
     }
 
-    // HU5: GET STATUS CREDIT REQUEST
     @GetMapping("/{id}/status")
     public ResponseEntity<String> getCreditRequestStatus(@PathVariable Long id) {
         Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
@@ -211,6 +210,17 @@ public class CreditRequestController {
             return ResponseEntity.ok(status);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Credit request not found");
+        }
+    }
+
+    // HU5: get status by rut
+    @GetMapping("/byRut/{rut}")
+    public ResponseEntity<List<CreditRequestEntity>> getCreditRequestByRut(@PathVariable String rut) {
+        try {
+            List<CreditRequestEntity> creditRequests = creditRequestService.getRequestsByClientRut(rut);
+            return ResponseEntity.ok(creditRequests);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

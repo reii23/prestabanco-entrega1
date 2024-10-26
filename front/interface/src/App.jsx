@@ -7,6 +7,7 @@ import CreditSimulation from "./components/CreditSimulation";
 import LoanList from "./components/LoanList";
 import AddCreditRequest from "./components/AddCreditRequest";
 import Sidebar from "./components/Sidebar";
+import CreditStatusView from './components/CreditStatusView';
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/credit-simulation" element={<CreditSimulation />} />
           <Route path="/loans" element={<LoanList />} /> 
           <Route path="/loans/add" element={<AddCreditRequest />} />
+          <Route path="/creditstatus" element={<CreditStatusView />} />
 
         </Routes>
       </Box>
