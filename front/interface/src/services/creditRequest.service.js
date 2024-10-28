@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = "http://localhost:8080/api/v1/CreditRequest/";
+const LOAN_COST_API_URL = "http://localhost:8080/api/v1/loanCost/";
 
 // get a client by rut to check if it exists
 const getClientByRut = (rut) => {
@@ -16,13 +17,24 @@ const createCreditRequest = (formData) => {
     });
 };
 
+
+// get the status of a credit request by its id
 const getCreditRequestStatus = (id) => {
     return axios.get(`${API_URL}${id}/status`);
 };
+
+// calculate the cost of a loan based on the credit request id
+const calculateLoanCost = (creditRequestId) => {
+    return axios.get(`${LOAN_COST_API_URL}calculate/${creditRequestId}`);
+};
+
+
+
 
 
 export default {
     getClientByRut,
     createCreditRequest,
     getCreditRequestStatus,
+    calculateLoanCost,
 };

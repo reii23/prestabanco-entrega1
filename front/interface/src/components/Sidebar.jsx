@@ -9,6 +9,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { useNavigate } from "react-router-dom";
 
@@ -54,7 +55,15 @@ const Sidebar = ({ open, toggleDrawer }) => {
           <ListItemIcon>
             <AssignmentTurnedInIcon /> 
           </ListItemIcon>
-          <ListItemText primary="Seguimiento de Estado" />
+          <ListItemText primary="Seguimiento de Estado del Crédito" />
+        </ListItemButton>
+
+        {/* Credit Status view Button option  */}
+        <ListItemButton onClick={() => navigate("/loan-cost")}>
+          <ListItemIcon>
+            <PaymentsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Costos Totales del Crédito" />
         </ListItemButton>
       </List>
     </Box>

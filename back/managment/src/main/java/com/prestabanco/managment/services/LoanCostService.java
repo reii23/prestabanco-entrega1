@@ -10,6 +10,7 @@ public class LoanCostService {
 
     @Autowired
     private CreditRequestRepository creditRequestRepository;
+
     public double calculateLoanCost(Long creditRequestId) {
         // obtain the credit request id, if not obtain, "credit rquest not found"
         CreditRequestEntity creditRequest = creditRequestRepository.findById(creditRequestId)
@@ -27,16 +28,16 @@ public class LoanCostService {
                 (1 - Math.pow(1 + monthlyInterestRate, -totalPayments));
 
         // 2. calculate insurance (fire,life)
-        double lifeInsurance = loanAmount * 0.0003;  // 0.03% mensual
-        double fireInsurance = 20000;  // Seguro fijo por mes
+        double lifeInsurance = loanAmount * 0.0003;
+        double fireInsurance = 20000;
 
         // 3. calculate adminFee (1%)
         double adminFee = loanAmount * 0.01;
 
         // 4. calculate total monthly cost
         double totalMonthlyCost = monthlyPayment + lifeInsurance + fireInsurance;
+        double totalLoanCost = (totalMonthlyCost * totalPayments) + adminFee;
 
-        // 5. calculate and return total loan cost
-        return (totalMonthlyCost * totalPayments) + adminFee;
+        return totalLoanCost; // Solo devuelve el costo total
     }
 }

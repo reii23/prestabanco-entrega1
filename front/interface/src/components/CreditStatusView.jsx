@@ -22,11 +22,15 @@ const CreditStatusView = () => {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
-            <h1>Seguimiento del estado de una solicitud</h1>
-            <h4>Ingrese el id de la solicitud para obtener el estado en que se encuentra</h4>
-            <form onSubmit={handleStatusCheck} style={{ width: '50%', marginTop: '2rem' }}>
+            <Typography variant="h4" gutterBottom>
+                Seguimiento del Estado de la Solicitud
+            </Typography>
+            <Typography variant="body1" sx={{ textAlign: 'center', mb: 2 }}>
+                Ingrese el ID de la solicitud para obtener el estado actual
+            </Typography>
+            <form onSubmit={handleStatusCheck} style={{ width: '50%' }}>
                 <TextField
-                    label="Ingrese el id de la solicitud"
+                    label="Ingrese el ID de la Solicitud"
                     name="requestId"
                     value={requestId}
                     onChange={(e) => setRequestId(e.target.value)}
@@ -39,7 +43,7 @@ const CreditStatusView = () => {
             </form>
 
             {message && (
-                <Typography variant="h6" color="error" sx={{ mt: 2 }}>
+                <Typography color="error" sx={{ mt: 2 }}>
                     {message}
                 </Typography>
             )}
