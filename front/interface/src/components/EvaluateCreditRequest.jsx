@@ -6,7 +6,6 @@ import {
 import loanService from '../services/loan.service';
 import clientService from '../services/client.service';
 import axios from 'axios';
-import Grid2 from '@mui/material/Unstable_Grid2';
 
 
 
@@ -154,7 +153,7 @@ const EvaluateCreditRequest = () => {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/v1/CreditRequest/${id}/${documentType}`,
-        { responseType: 'blob' } // set the response type to blob (binary data)
+        { responseType: 'blob' }
       );
 
       // create a Blob object with the response data
@@ -163,10 +162,10 @@ const EvaluateCreditRequest = () => {
 
       const link = document.createElement('a');
       link.href = fileURL;
-      link.download = `${documentType}.pdf`; // name of the downloaded file
-      document.body.appendChild(link); 
-      link.click(); 
-      document.body.removeChild(link);
+      link.download = `${documentType}.pdf`; // Establece el nombre del archivo descargado
+      document.body.appendChild(link); // Agrega el enlace al DOM
+      link.click(); // Activa el clic en el enlace
+      document.body.removeChild(link); // Elimina el enlace del DOM después de descargar
 
       URL.revokeObjectURL(fileURL);
     } catch (error) {
@@ -186,157 +185,79 @@ const EvaluateCreditRequest = () => {
         {/* Client information: show the client information */}
         <Box sx={{ marginTop: '20px' }}>
           <Typography variant="h6">Información del Cliente</Typography>
-          <Grid2 container spacing={2}>
-            <Grid2 item xs={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
               <TextField
                 label="Nombre"
                 value={client.name}
                 fullWidth
                 disabled
               />
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Edad"
                 value={client.age}
                 fullWidth
                 disabled
               />
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Salario Mensual"
                 value={client.salary}
                 fullWidth
                 disabled
               />
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Gastos Mensuales"
                 value={creditRequest.expenses}
                 fullWidth
                 disabled
               />
-            </Grid2>
-          </Grid2>
-        </Box>
-
-        {/* Información del préstamo */}
-        <Box sx={{ marginTop: '20px' }}>
-          <Typography variant="h6">Información del Préstamo</Typography>
-          <Grid2 container spacing={2}>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Monto Solicitado"
-                value={creditRequest.requestedAmount}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Plazo (Años)"
-                value={creditRequest.termYears}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Tasa de Interés (%)"
-                value={creditRequest.interestRate}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Edad al Finalizar el Préstamo"
-                value={client.age + creditRequest.termYears}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         </Box>
 
         {/* Loan information: show the loan information */}
         <Box sx={{ marginTop: '20px' }}>
-          <Typography variant="h6">Información del Cliente</Typography>
-          <Grid2 container spacing={2}>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Nombre"
-                value={client.name}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Edad"
-                value={client.age}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Salario Mensual"
-                value={client.salary}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-            <Grid2 item xs={6}>
-              <TextField
-                label="Gastos Mensuales"
-                value={creditRequest.expenses}
-                fullWidth
-                disabled
-              />
-            </Grid2>
-          </Grid2>
-        </Box>
-
-// Información del préstamo
-        <Box sx={{ marginTop: '20px' }}>
           <Typography variant="h6">Información del Préstamo</Typography>
-          <Grid2 container spacing={2}>
-            <Grid2 item xs={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
               <TextField
                 label="Monto Solicitado"
                 value={creditRequest.requestedAmount}
                 fullWidth
                 disabled
               />
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Plazo (Años)"
                 value={creditRequest.termYears}
                 fullWidth
                 disabled
               />
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Tasa de Interés (%)"
                 value={creditRequest.interestRate}
                 fullWidth
                 disabled
               />
-            </Grid2>
-            <Grid2 item xs={6}>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
                 label="Edad al Finalizar el Préstamo"
                 value={client.age + creditRequest.termYears}
                 fullWidth
                 disabled
               />
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         </Box>
 
         {/* Documentation: show the documentation */}
