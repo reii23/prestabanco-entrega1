@@ -19,7 +19,10 @@ const AddCreditRequest = () => {
     const [incomeProofPdf, setIncomeProofPdf] = useState(null);
     const [propertyValuationPdf, setPropertyValuationPdf] = useState(null);
     const [creditHistoryPdf, setCreditHistoryPdf] = useState(null);
-    const [additionalFile, setAdditionalFile] = useState(null);
+    const [firstPropertyDeedPdf, setFirstPropertyDeedPdf] = useState(null);
+    const [financialStateBusinessPdf, setFinancialStateBusinessPdf] = useState(null);
+    const [renovationBudgetPdf, setRenovationBudgetPdf] = useState(null);
+    const [businessPlanPdf, setBusinessPlanPdf] = useState(null);
     const [message, setMessage] = useState('');
 
     // obtain the list of loan types 
@@ -60,7 +63,8 @@ const AddCreditRequest = () => {
             setIncomeProofPdf(null);
             setPropertyValuationPdf(null);
             setCreditHistoryPdf(null);
-            setAdditionalFile(null);
+            setFirstPropertyDeedPdf(null);
+            setFinancialStateBusinessPdf(null);
             setCreditData({
                 ...creditData,
                 loanTypeId: parseInt(value),
@@ -70,8 +74,7 @@ const AddCreditRequest = () => {
             setCreditData({ ...creditData, [name]: value });
         }
     };
-    
-    // change the file to upload (income proof, property valuation, credit history, additional file)
+    // change the file to upload (income proof, property valuation, credit history, firstPropertyDeedPdf)
     const handleFileChange = (e, setFile) => {
         setFile(e.target.files[0]);
     };
@@ -79,7 +82,7 @@ const AddCreditRequest = () => {
     // render the fields to upload the required documents according to the selected loan type
     const renderDocumentFields = () => {
         switch (creditData.loanType) {
-            case 'Primera Vivienda': // Usamos el nombre del préstamo
+            case 'Primera Vivienda': // case first property 
                 return (
                     <>
                         <Typography variant="h6">Comprobante de Ingresos</Typography>
@@ -92,7 +95,7 @@ const AddCreditRequest = () => {
                         <input type="file" onChange={(e) => handleFileChange(e, setCreditHistoryPdf)} accept="application/pdf" />
                     </>
                 );
-            case 'Segunda Vivienda': // Usamos el nombre del préstamo
+            case 'Segunda Vivienda': // case second property
                 return (
                     <>
                         <Typography variant="h6">Comprobante de Ingresos</Typography>
@@ -102,37 +105,37 @@ const AddCreditRequest = () => {
                         <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
     
                         <Typography variant="h6">Escritura de la Primera Vivienda</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setAdditionalFile)} accept="application/pdf" />
-    
+                        <input type="file" onChange={(e) => handleFileChange(e, setFirstPropertyDeedPdf)} accept="application/pdf" /> 
+
                         <Typography variant="h6">Historial Crediticio</Typography>
                         <input type="file" onChange={(e) => handleFileChange(e, setCreditHistoryPdf)} accept="application/pdf" />
                     </>
                 );
-            case 'Propiedades Comerciales': // Usamos el nombre del préstamo
+            case 'Propiedades Comerciales': // case commercial properties
                 return (
                     <>
                         <Typography variant="h6">Estado Financiero del Negocio</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setAdditionalFile)} accept="application/pdf" />
-    
+                        <input type="file" onChange={(e) => handleFileChange(e, setFinancialStateBusinessPdf)} accept="application/pdf" />
+
                         <Typography variant="h6">Comprobante de Ingresos</Typography>
                         <input type="file" onChange={(e) => handleFileChange(e, setIncomeProofPdf)} accept="application/pdf" />
-    
+
                         <Typography variant="h6">Certificado de Avalúo</Typography>
                         <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
-    
+
                         <Typography variant="h6">Plan de Negocios</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setCreditHistoryPdf)} accept="application/pdf" />
+                        <input type="file" onChange={(e) => handleFileChange(e, setBusinessPlanPdf)} accept="application/pdf" />
                     </>
                 );
-            case 'Remodelación': // Usamos el nombre del préstamo
+            case 'Remodelación': // case renovation 
                 return (
                     <>
                         <Typography variant="h6">Comprobante de Ingresos</Typography>
                         <input type="file" onChange={(e) => handleFileChange(e, setIncomeProofPdf)} accept="application/pdf" />
     
                         <Typography variant="h6">Presupuesto de la Remodelación</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setAdditionalFile)} accept="application/pdf" />
-    
+                        <input type="file" onChange={(e) => handleFileChange(e, setRenovationBudgetPdf)} accept="application/pdf" />
+
                         <Typography variant="h6">Certificado de Avalúo Actualizado</Typography>
                         <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
                     </>
@@ -157,9 +160,24 @@ const AddCreditRequest = () => {
         formData.append('incomeProofPdf', incomeProofPdf);
         formData.append('propertyValuationPdf', propertyValuationPdf);
         formData.append('creditHistoryPdf', creditHistoryPdf);
-        if (additionalFile) {
-            formData.append('renovationBudgetPdf', additionalFile);
+
+        if (creditData.loanType === 'Segunda Vivienda' && firstPropertyDeedPdf) {
+            formData.append('firstPropertyDeedPdf', firstPropertyDeedPdf);
         }
+
+        if (creditData.loanType === 'Propiedades Comerciales' && financialStateBusinessPdf) {
+            formData.append('financialStateBusinessPdf', financialStateBusinessPdf);
+        }
+
+        if (creditData.loanType === 'Remodelación' && renovationBudgetPdf) {
+            formData.append('renovationBudgetPdf', renovationBudgetPdf);
+        }
+
+        if (creditData.loanType === 'Propiedades Comerciales' && businessPlanPdf) {
+            formData.append('businessPlanPdf', businessPlanPdf);
+        }
+        
+
 
         try {
             const response = await creditRequestService.createCreditRequest(formData);

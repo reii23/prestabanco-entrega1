@@ -191,11 +191,25 @@ public class CreditRequestController {
         }
     }
 
+    @GetMapping("/{id}/financialStateBusinessPdf")
+    public ResponseEntity<byte[]> getFinancialStateBusinessPdf(@PathVariable Long id) {
+        Optional<CreditRequestEntity> creditRequest = creditRequestService.getRequestById(id);
+        if (creditRequest.isPresent() && creditRequest.get().getFinancialStateBusinessPdf() != null) {
+            byte[] pdfBytes = creditRequest.get().getFinancialStateBusinessPdf();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "financialStateBusiness.pdf");
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     // HU4: evaluate a credit request by executive
     @PostMapping("/evaluate/{id}")
-    public ResponseEntity<String> evaluateCreditRequest(@PathVariable Long id) {
+    public ResponseEntity<String> evaluateCreditRequest(@PathVariable Long id, @RequestBody CreditRequestEntity evaluationData) {
         try {
-            String evaluationResult = creditRequestService.evaluateCreditRequest(id);
+            String evaluationResult = creditRequestService.evaluateCreditRequest(id, evaluationData);
             return ResponseEntity.ok(evaluationResult);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

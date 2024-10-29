@@ -8,6 +8,7 @@ import LoanList from "./components/LoanList";
 import AddCreditRequest from "./components/AddCreditRequest";
 import LoanCostView from './components/LoanCostView';
 import CreditStatusView from './components/CreditStatusView';
+import EvaluateCreditRequest from './components/EvaluateCreditRequest';
 import Sidebar from "./components/Sidebar";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
@@ -59,7 +60,7 @@ const App = () => {
           <Route path="/loans/add" element={<AddCreditRequest />} />
           <Route path="/creditstatus" element={<CreditStatusView />} />
           <Route path="/loan-cost" element={<LoanCostView />} />
-          
+          <Route path="/loans/evaluate/:id" element={<EvaluateCreditRequest />} />
 
         </Routes>
       </Box>

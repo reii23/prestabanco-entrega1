@@ -7,14 +7,18 @@ const getAllLoans = () => {
   return axios.get(API_URL);
 };
 
-
-// TO DO: MAKE THE EVALUATE CREDIT REQUEST FUNCTION (ACTUALLY IS AUTOMATHIC BUT WE CAN MAKE A BUTTON VIEW TO EVALUATE IT)
-const evaluateLoan = (id) => {
-    return axios.post(`http://localhost:8080/api/v1/CreditRequest/evaluate/${id}`);
+// obtain a loan by id
+const getLoanById = (id) => {
+  return axios.get(`${API_URL}${id}`);
 };
 
+// evaluate a loan request by id
+const evaluateLoan = (id, evaluationData) => {
+  return axios.post(`${API_URL}evaluate/${id}`, evaluationData);
+};
 
 export default {
   getAllLoans,
+  getLoanById,
   evaluateLoan, 
 };

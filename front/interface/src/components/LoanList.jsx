@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material"; // icons
-import loanService from "../services/loan.service";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import clientService from "../services/client.service"; 
+import loanService from "../services/loan.service";
+import clientService from "../services/client.service";
 
 const LoanList = () => {
-  const [loans,setLoans] = useState([]);
-  const [clients,setClients] = useState({});
+  const [loans, setLoans] = useState([]);
+  const [clients, setClients] = useState({});
   const navigate = useNavigate();
 
   const fetchLoans = async () => {
-    try {const response = await loanService.getAllLoans();
+    try {
+      const response = await loanService.getAllLoans();
       const loansData = response.data;
 
-     // Obtain client data for each loan (by client id)
+    // Obtain client data for each loan (by client id)
       const clientPromises = loansData.map((loan) => clientService.getClientById(loan.clientId) // use getClientById method from clientService to get client data
       );
       const clientResponses = await Promise.all(clientPromises);
@@ -30,7 +31,8 @@ const LoanList = () => {
   };
 
   useEffect(() => {
-    fetchLoans();}, []);
+    fetchLoans();
+  }, []);
 
     // evaluate a loan request by id (TO DO: in proccess: change to a new view to evaluate)
   const evaluateLoan = async (id) => {
@@ -85,7 +87,7 @@ const LoanList = () => {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={() => evaluateLoan(loan.idCreditRequest)}
+                    onClick={() => navigate(`/loans/evaluate/${loan.idCreditRequest}`)}
                   >
                     Evaluar
                   </Button>

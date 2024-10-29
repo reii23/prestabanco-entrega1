@@ -36,6 +36,22 @@ public class CreditRequestEntity {
     // Loan status
     private String status; // loan approved, rejected, under review
 
+    // Evaluation requirements
+    private Boolean r1PaymentToIncome; // R1
+    private Boolean r2CreditHistory;   // R2
+    private Boolean r3EmploymentStability; // R3
+    private Boolean r4DebtToIncome;    // R4
+    private Boolean r5MaxFinancing;    // R5
+    private Boolean r6AgeRestriction;  // R6
+
+    // Saving capacity requirements
+    private Boolean r71MinimumBalance;
+    private Boolean r72ConsistentSavingsHistory;
+    private Boolean r73PeriodicDeposits;
+    private Boolean r74BalanceYearsRatio;
+    private Boolean r75RecentWithdrawals;
+    private String r7SavingsCapacity;
+
     // DOCUMENTS: all documents for credit request in @Lob to work with bytes
     @Lob
     @Column(name = "income_proof_pdf")

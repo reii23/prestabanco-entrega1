@@ -114,50 +114,74 @@ public class CreditRequestService {
     }
 
     // HU4: Evaluate Credit Request
-    public String evaluateCreditRequest(Long id) {
+    public String evaluateCreditRequest(Long id, CreditRequestEntity evaluationData) {
         CreditRequestEntity request = creditRequestRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Credit request not found"));
 
-        // R1: Relation monthly fee/salary
-        double cuotaIngreso = calculatePaymentToIncomeRatio(request);
-        if (cuotaIngreso > 0.35) {
-            request.setStatus("rejected");
-            creditRequestRepository.save(request);
-            return "Request rejected: Payment-to-income ratio exceeds 35%";
+        // boolean requirements evaluation
+        request.setR1PaymentToIncome(evaluationData.getR1PaymentToIncome());
+        request.setR2CreditHistory(evaluationData.getR2CreditHistory());
+        request.setR3EmploymentStability(evaluationData.getR3EmploymentStability());
+        request.setR4DebtToIncome(evaluationData.getR4DebtToIncome());
+        request.setR5MaxFinancing(evaluationData.getR5MaxFinancing());
+        request.setR6AgeRestriction(evaluationData.getR6AgeRestriction());
+
+        // boolean requirements save capacity evaluation
+        request.setR71MinimumBalance(evaluationData.getR71MinimumBalance());
+        request.setR72ConsistentSavingsHistory(evaluationData.getR72ConsistentSavingsHistory());
+        request.setR73PeriodicDeposits(evaluationData.getR73PeriodicDeposits());
+        request.setR74BalanceYearsRatio(evaluationData.getR74BalanceYearsRatio());
+        request.setR75RecentWithdrawals(evaluationData.getR75RecentWithdrawals());
+
+        // evaluate requirement 7
+        int r7Count = 0;
+        if (Boolean.TRUE.equals(request.getR71MinimumBalance())) r7Count++;
+        if (Boolean.TRUE.equals(request.getR72ConsistentSavingsHistory())) r7Count++;
+        if (Boolean.TRUE.equals(request.getR73PeriodicDeposits())) r7Count++;
+        if (Boolean.TRUE.equals(request.getR74BalanceYearsRatio())) r7Count++;
+        if (Boolean.TRUE.equals(request.getR75RecentWithdrawals())) r7Count++;
+
+        // determine the saving capacity (solid, moderate, insufficient)
+        if (r7Count >= 5) {
+            request.setR7SavingsCapacity("sólida");
+        } else if (r7Count >= 3) {
+            request.setR7SavingsCapacity("moderada");
+        } else {
+            request.setR7SavingsCapacity("insuficiente");
         }
 
-        // R2: Credit History
-        if (!verifyCreditHistory(request)) {
+        // evaluate approval or rejection of the credit request based on requirements and saving capacity
+        if (Boolean.FALSE.equals(request.getR1PaymentToIncome()) ||
+                Boolean.FALSE.equals(request.getR4DebtToIncome()) ||
+                Boolean.FALSE.equals(request.getR6AgeRestriction())) {
+
+            // REJECTED: payment to income ratio, debt to income ratio, or age restriction
             request.setStatus("rejected");
             creditRequestRepository.save(request);
-            return "Request rejected: Negative credit history";
+            return "Solicitud rechazada por criterios obligatorios";
         }
 
-        // R3: Job Seniority
-        if (!verifyEmploymentStability(request)) {
+        // PENDING: credit history, employment stability, or maximum financing
+        if (Boolean.FALSE.equals(request.getR2CreditHistory()) ||
+                Boolean.FALSE.equals(request.getR3EmploymentStability()) ||
+                Boolean.FALSE.equals(request.getR5MaxFinancing())) {
+
+            request.setStatus("pending review");
+            creditRequestRepository.save(request);
+            return "Solicitud pendiente de revisión adicional";
+        }
+
+        // REJECTED: saving capacity is insufficient
+        if ("insuficiente".equals(request.getR7SavingsCapacity())) {
             request.setStatus("rejected");
             creditRequestRepository.save(request);
-            return "Request rejected: Insufficient employment stability";
+            return "Solicitud rechazada por capacidad de ahorro insuficiente";
         }
 
-        // R4: Debt-to-income ratio
-        double deudaIngreso = calculateDebtToIncomeRatio(request);
-        if (deudaIngreso > 0.50) {
-            request.setStatus("rejected");
-            creditRequestRepository.save(request);
-            return "Request rejected: Debt-to-income ratio exceeds 50%";
-        }
-
-        // R6: Age restriction
-        if (!verifyAgeRestriction(request)) {
-            request.setStatus("rejected");
-            creditRequestRepository.save(request);
-            return "Request rejected: Age restriction exceeded";
-        }
-
+        // APPROVED: all requirements are met and saving capacity is solid or moderate
         request.setStatus("approved");
         creditRequestRepository.save(request);
-        return "Request approved";
+        return "Solicitud aprobada";
     }
 
     private double calculatePaymentToIncomeRatio(CreditRequestEntity request) {
