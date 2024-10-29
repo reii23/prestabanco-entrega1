@@ -37,13 +37,12 @@ public class ClientService {
     }
 
     // delete a client by id
-    public boolean deleteClient(Long id) throws Exception {
-        try{
-            clientRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
+    public boolean deleteClient(Long id) {
+        if (!clientRepository.existsById(id)) {
+            throw new RuntimeException("Client not found"); // Cambia Exception a RuntimeException si no está lanzando correctamente
         }
+        clientRepository.deleteById(id);
+        return true;
     }
 
 }

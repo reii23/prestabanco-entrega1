@@ -17,8 +17,15 @@ const evaluateLoan = (id, evaluationData) => {
   return axios.post(`${API_URL}evaluate/${id}`, evaluationData);
 };
 
+// delete a loan request by id
+const deleteCreditRequestById = (id) => {
+  return axios.delete(`${API_URL}${id}`);
+};
+
+
 export default {
   getAllLoans,
   getLoanById,
   evaluateLoan, 
+  deleteCreditRequestById,
 };

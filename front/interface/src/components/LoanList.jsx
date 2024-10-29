@@ -34,14 +34,14 @@ const LoanList = () => {
     fetchLoans();
   }, []);
 
-    // evaluate a loan request by id (TO DO: in proccess: change to a new view to evaluate)
-  const evaluateLoan = async (id) => {
+  // Delete a loan request by id
+  const deleteLoan = async (id) => {
     try {
-      const response = await loanService.evaluateLoan(id);
-      alert(`Evaluation Completed: ${response.data}`);
-      fetchLoans(); // refresh loan list after evaluation
+      await loanService.deleteCreditRequestById(id);
+      alert(`Solicitud de crédito con ID ${id} eliminada`);
+      fetchLoans(); 
     } catch (error) {
-      console.error("Error in the loan evaluation", error);
+      console.error("Error deleting the loan request", error);
     }
   };
 
@@ -78,11 +78,11 @@ const LoanList = () => {
                 <TableCell>
                   <Button
                     variant="outlined"
-                    color="primary"
-                    onClick={() => navigate(`/loans/${loan.idCreditRequest}`)}
+                    color="error"
+                    onClick={() => deleteLoan(loan.idCreditRequest)}
                     sx={{ marginRight: "1rem" }}
                   >
-                    Ver Detalles
+                    Eliminar
                   </Button>
                   <Button
                     variant="outlined"
