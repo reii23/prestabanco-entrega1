@@ -184,43 +184,59 @@ public class CreditRequestService {
         return "Solicitud aprobada";
     }
 
-    private double calculatePaymentToIncomeRatio(CreditRequestEntity request) {
+    public double calculatePaymentToIncomeRatio(CreditRequestEntity request) {
         ClientEntity client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
         double monthlyPayment = calculateMonthlyPayment(request.getRequestedAmount(), request.getInterestRate(), request.getTermYears());
         return monthlyPayment / client.getSalary();
     }
 
-    private double calculateDebtToIncomeRatio(CreditRequestEntity request) {
+    public double calculateDebtToIncomeRatio(CreditRequestEntity request) {
         ClientEntity client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
+
+        if (client.getSalary() == 0) {
+            throw new ArithmeticException("Salary cannot be zero when calculating debt-to-income ratio");
+        }
+
         double totalDebt = request.getExpenses(); // Assuming expenses represent current debts
         double newLoanPayment = calculateMonthlyPayment(request.getRequestedAmount(), request.getInterestRate(), request.getTermYears());
         return (totalDebt + newLoanPayment) / client.getSalary();
     }
 
-    private boolean verifyCreditHistory(CreditRequestEntity request) {
+
+    public boolean verifyCreditHistory(CreditRequestEntity request) {
         return true; // Simulate the credit history check
     }
 
-    private boolean verifyEmploymentStability(CreditRequestEntity request) {
+    public boolean verifyEmploymentStability(CreditRequestEntity request) {
         ClientEntity client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
         return client.getSalary() != null && client.getSalary() > 0;
     }
 
-    private boolean verifyAgeRestriction(CreditRequestEntity request) {
+    public boolean verifyAgeRestriction(CreditRequestEntity request) {
         ClientEntity client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found"));
         int loanEndAge = client.getAge() + request.getTermYears();
         return loanEndAge <= 75; // The loan must end before the client reaches 75 years of age
     }
 
-    private double calculateMonthlyPayment(double loanAmount, double interestRate, int termYears) {
+    public double calculateMonthlyPayment(double loanAmount, double interestRate, int termYears) {
+        if (termYears == 0) {
+            throw new ArithmeticException("Term years cannot be zero.");
+        }
+
         double monthlyInterestRate = interestRate / 12 / 100;
         int totalPayments = termYears * 12;
+
+        if (monthlyInterestRate == 0) {
+            return loanAmount / totalPayments;
+        }
+
         return (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -totalPayments));
     }
+
 
 
     // get requests by RUT
@@ -230,7 +246,10 @@ public class CreditRequestService {
             return creditRequestRepository.findByClientId(client.getId());
 
         } else {
-            throw new IllegalArgumentException("Client with RUT  "+ rut + " not found");
+            throw new IllegalArgumentException("Client with RUT " + rut + " not found");
+
         }
     }
+
+
 }
