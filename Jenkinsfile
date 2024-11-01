@@ -23,6 +23,7 @@ pipeline {
             steps {
                 dir("back/managment") {
                     script {
+                        bat "docker context use default"
                         withDockerRegistry(credentialsId: 'docker-credentials') {
                             bat "docker build -t reii23/spring-image ."
                             bat "docker push reii23/spring-image"
