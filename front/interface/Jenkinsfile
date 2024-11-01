@@ -14,6 +14,7 @@ pipeline {
             steps {
                 dir("front/interface") {
                     script {
+                        bat "docker context use default"
                         withDockerRegistry(credentialsId: 'docker-credentials') {
                             bat "docker build -t reii23/prestabanco-frontend ."
                             bat "docker push reii23/prestabanco-frontend"
