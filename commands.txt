@@ -1,0 +1,46 @@
+# Comandos Docker más importantes
+
+# Iniciar todos los servicios
+cd deployment
+docker-compose up --build -d
+
+# Detener todos los servicios
+docker-compose down
+
+# Ver logs de contenedores
+docker logs prestabanco-frontend-container-1
+docker logs prestabanco-backend-container-1
+docker logs prestabanco-postgres-container
+docker logs prestabanco-nginx-frontend-container
+docker logs prestabanco-nginx-backend-container
+
+# Conectarse a la base de datos PostgreSQL
+docker exec -it prestabanco-postgres-container psql -U postgres -d prestabanco
+
+# Ejecutar SQL en PostgreSQL
+# Insertar tipos de préstamos
+docker exec -it prestabanco-postgres-container psql -U postgres -d prestabanco -c "
+INSERT INTO loan_type (name, max_term_years, min_interest_rate, max_interest_rate, max_financing_percentage) 
+VALUES 
+    ('Primera Vivienda', 30, 3.5, 5.0, 80.0),
+    ('Segunda Vivienda', 20, 4.0, 6.0, 70.0),
+    ('Propiedades Comerciales', 25, 5.0, 7.0, 60.0),
+    ('Remodelación', 15, 4.5, 6.0, 50.0);"
+
+# Verificar contenedores en ejecución
+docker ps
+
+# Verificar redes Docker
+docker network ls
+
+# Verificar volúmenes Docker
+docker volume ls
+
+# Limpiar caché y reconstruir (si hay problemas)
+docker-compose down
+rm -rf deployment/frontend/node_modules deployment/frontend/dist
+docker-compose up --build -d
+
+# Acceder a la aplicación
+Frontend: http://localhost:3000/
+Backend API: http://localhost:8081/clients/

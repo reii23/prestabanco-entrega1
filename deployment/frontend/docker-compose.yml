@@ -1,0 +1,16 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prestabanco-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - prestabanco-frontend-network
+    environment:
+      - VITE_API_URL=http://prestabanco-nginx-backend-container/api
+
+networks:
+  prestabanco-frontend-network:
+    external: true
