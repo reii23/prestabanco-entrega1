@@ -9,12 +9,18 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - prestabanco-frontend-network
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - prestabanco-network
     environment:
-      - VITE_API_URL=http://localhost:8080/api
+      - VITE_API_URL=http://backend:8080/api
+
+  backend:
+    image: reii23/spring-image
+    container_name: prestabanco-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - prestabanco-network
 
 networks:
-  prestabanco-frontend-network:
+  prestabanco-network:
     driver: bridge
