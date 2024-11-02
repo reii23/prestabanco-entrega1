@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:8080/api/v1/CreditRequest/";
-const LOAN_COST_API_URL = "http://localhost:8080/api/v1/loanCost/";
+const API_URL = "prestabanco-app.brazilsouth.cloudapp.azure.com:80/api/v1/CreditRequest/";
+const LOAN_COST_API_URL = "prestabanco-app.brazilsouth.cloudapp.azure.com:80/api/v1/loanCost/";
 
 // get a client by rut to check if it exists
 const getClientByRut = (rut) => {
-    return axios.get(`http://localhost:8080/api/v1/clients/rut/${rut}`);
+    return axios.get(`prestabanco-app.brazilsouth.cloudapp.azure.com:80/api/v1/clients/rut/${rut}`);
 };
 
 // send a credit request to the API (content is multipart/form-data because it includes a files in PDF format)

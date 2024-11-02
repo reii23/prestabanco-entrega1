@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "http://localhost:8080/api/v1/CreditRequest/";
+const API_URL = "prestabanco-app.brazilsouth.cloudapp.azure.com:80/api/v1/CreditRequest/";
 
 // obtain all loans from the API
 const getAllLoans = () => {
