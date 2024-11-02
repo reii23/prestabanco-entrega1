@@ -5,7 +5,7 @@ services:
     container_name: prestabanco-nginx-backend-container
     restart: always
     ports:
-      - "80:80"
+      - 80:80
     volumes:
       - ./backend/backend.conf:/etc/nginx/nginx.conf 
     networks:
@@ -21,7 +21,7 @@ services:
     container_name: prestabanco-nginx-frontend-container
     restart: always
     ports:
-      - "8070:8070"
+      - 8070:8070
     volumes:
       - ./frontend.conf:/etc/nginx/nginx.conf
     networks:
@@ -45,14 +45,14 @@ services:
     environment:
       POSTGRES_PASSWORD: 230902
     ports:
-      - "5432:5432"
+      - 5432:5432
 
   # Spring backend services
   spring1:
     container_name: prestabanco-backend-container-1
     image: reii23/spring-image
     ports:
-      - "8081:8080"
+      - 8081:8080
     environment:
       DB_HOST: prestabanco-postgres-container
       DB_PORT: 5432
@@ -71,7 +71,7 @@ services:
     container_name: prestabanco-backend-container-2
     image: reii23/spring-image
     ports:
-      - "8082:8080"
+      - 8082:8080
     environment:
       DB_HOST: prestabanco-postgres-container
       DB_PORT: 5432
@@ -90,7 +90,7 @@ services:
     container_name: prestabanco-backend-container-3
     image: reii23/spring-image
     ports:
-      - "8083:8080"
+      - 8083:8080
     environment:
       DB_HOST: prestabanco-postgres-container
       DB_PORT: 5432
@@ -110,7 +110,7 @@ services:
     container_name: prestabanco-frontend-container-1
     image: reii23/prestabanco-frontend:latest
     ports:
-      - "3001:3000"
+      - 3001:3000
     networks:
       - prestabanco-frontend-network
     deploy:
@@ -121,7 +121,7 @@ services:
     container_name: prestabanco-frontend-container-2
     image: reii23/prestabanco-frontend:latest
     ports:
-      - "3002:3000"
+      - 3002:3000
     networks:
       - prestabanco-frontend-network
     deploy:
@@ -132,7 +132,7 @@ services:
     container_name: prestabanco-frontend-container-3
     image: reii23/prestabanco-frontend:latest
     ports:
-      - "3003:3000"
+      - 3003:3000
     networks:
       - prestabanco-frontend-network
     deploy:
