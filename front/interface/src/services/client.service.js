@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/v1/clients/";
+const API_URL = "prestabanco-app.brazilsouth.cloudapp.azure.com:8080/api/v1/clients/";
 
 // obtain all clients
 const getAllClients = () => {
