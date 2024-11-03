@@ -106,7 +106,7 @@ services:
       - postgres
 
   # React frontend services
-    react1:
+  react1:
     container_name: prestabanco-frontend-container-1
     image: reii23/prestabanco-frontend:latest
     ports:
@@ -117,7 +117,7 @@ services:
       restart_policy:
         condition: on-failure
 
-    react2:
+  react2:
     container_name: prestabanco-frontend-container-2
     image: reii23/prestabanco-frontend:latest
     ports:
@@ -128,7 +128,7 @@ services:
       restart_policy:
         condition: on-failure
 
-    react3:
+  react3:
     container_name: prestabanco-frontend-container-3
     image: reii23/prestabanco-frontend:latest
     ports:
