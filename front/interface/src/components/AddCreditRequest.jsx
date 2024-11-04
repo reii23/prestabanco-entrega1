@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import creditRequestService from '../services/creditRequest.service';
 import loanTypeService from '../services/loanType.service';
 
@@ -81,63 +82,66 @@ const AddCreditRequest = () => {
 
     // render the fields to upload the required documents according to the selected loan type
     const renderDocumentFields = () => {
+        const renderFileButton = (label, file, setFile) => (
+            <Box sx={{ my: 2 }}>
+                <Button
+                    component="label"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                >
+                    {label}
+                    <input
+                        type="file"
+                        hidden
+                        onChange={(e) => handleFileChange(e, setFile)}
+                        accept="application/pdf"
+                    />
+                </Button>
+                {file && (
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                        Archivo seleccionado: {file.name}
+                    </Typography>
+                )}
+            </Box>
+        );
+
         switch (creditData.loanType) {
             case 'Primera Vivienda': // case first property 
                 return (
                     <>
-                        <Typography variant="h6">Comprobante de Ingresos</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setIncomeProofPdf)} accept="application/pdf" />
-    
-                        <Typography variant="h6">Certificado de Avalúo</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
-    
-                        <Typography variant="h6">Historial Crediticio</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setCreditHistoryPdf)} accept="application/pdf" />
+                        <Typography variant="h6">Documentos para Primera Vivienda</Typography>
+                        {renderFileButton("Subir Comprobante de Ingresos", incomeProofPdf, setIncomeProofPdf)}
+                        {renderFileButton("Subir Certificado de Avalúo", propertyValuationPdf, setPropertyValuationPdf)}
+                        {renderFileButton("Subir Historial Crediticio", creditHistoryPdf, setCreditHistoryPdf)}
                     </>
                 );
             case 'Segunda Vivienda': // case second property
                 return (
                     <>
-                        <Typography variant="h6">Comprobante de Ingresos</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setIncomeProofPdf)} accept="application/pdf" />
-    
-                        <Typography variant="h6">Certificado de Avalúo</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
-    
-                        <Typography variant="h6">Escritura de la Primera Vivienda</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setFirstPropertyDeedPdf)} accept="application/pdf" /> 
-
-                        <Typography variant="h6">Historial Crediticio</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setCreditHistoryPdf)} accept="application/pdf" />
+                        <Typography variant="h6">Documentos para Segunda Vivienda</Typography>
+                        {renderFileButton("Subir Comprobante de Ingresos", incomeProofPdf, setIncomeProofPdf)}
+                        {renderFileButton("Subir Certificado de Avalúo", propertyValuationPdf, setPropertyValuationPdf)}
+                        {renderFileButton("Subir Escritura de la Primera Vivienda", firstPropertyDeedPdf, setFirstPropertyDeedPdf)}
+                        {renderFileButton("Subir Historial Crediticio", creditHistoryPdf, setCreditHistoryPdf)}
                     </>
                 );
             case 'Propiedades Comerciales': // case commercial properties
                 return (
                     <>
-                        <Typography variant="h6">Estado Financiero del Negocio</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setFinancialStateBusinessPdf)} accept="application/pdf" />
-
-                        <Typography variant="h6">Comprobante de Ingresos</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setIncomeProofPdf)} accept="application/pdf" />
-
-                        <Typography variant="h6">Certificado de Avalúo</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
-
-                        <Typography variant="h6">Plan de Negocios</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setBusinessPlanPdf)} accept="application/pdf" />
+                        <Typography variant="h6">Documentos para Propiedades Comerciales</Typography>
+                        {renderFileButton("Subir Estado Financiero del Negocio", financialStateBusinessPdf, setFinancialStateBusinessPdf)}
+                        {renderFileButton("Subir Comprobante de Ingresos", incomeProofPdf, setIncomeProofPdf)}
+                        {renderFileButton("Subir Certificado de Avalúo", propertyValuationPdf, setPropertyValuationPdf)}
+                        {renderFileButton("Subir Plan de Negocios", businessPlanPdf, setBusinessPlanPdf)}
                     </>
                 );
             case 'Remodelación': // case renovation 
                 return (
                     <>
-                        <Typography variant="h6">Comprobante de Ingresos</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setIncomeProofPdf)} accept="application/pdf" />
-    
-                        <Typography variant="h6">Presupuesto de la Remodelación</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setRenovationBudgetPdf)} accept="application/pdf" />
-
-                        <Typography variant="h6">Certificado de Avalúo Actualizado</Typography>
-                        <input type="file" onChange={(e) => handleFileChange(e, setPropertyValuationPdf)} accept="application/pdf" />
+                        <Typography variant="h6">Documentos para Remodelación</Typography>
+                        {renderFileButton("Subir Comprobante de Ingresos", incomeProofPdf, setIncomeProofPdf)}
+                        {renderFileButton("Subir Presupuesto de la Remodelación", renovationBudgetPdf, setRenovationBudgetPdf)}
+                        {renderFileButton("Subir Certificado de Avalúo Actualizado", propertyValuationPdf, setPropertyValuationPdf)}
                     </>
                 );
             default:
