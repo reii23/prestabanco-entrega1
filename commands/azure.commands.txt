@@ -1,0 +1,2 @@
+# iniciar la maquina virtual
+username@ipvm

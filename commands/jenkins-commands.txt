@@ -1,0 +1,2 @@
+# iniciar jenkins en el puerto 8084
+java -jar jenkins.war --httpPort=8084

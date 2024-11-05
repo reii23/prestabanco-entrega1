@@ -1,0 +1,19 @@
+# iniciar todos los servicios 
+cd deployment
+docker-compose up -d
+
+# detener todos los servicios
+docker-compose down
+
+# ver logs de contenedores
+docker logs prestabanco-frontend-container-1
+docker logs prestabanco-backend-container-1
+docker logs prestabanco-postgres-container
+docker logs prestabanco-nginx-frontend-container
+docker logs prestabanco-nginx-backend-container
+
+# conectarse a la base de datos PostgreSQL
+docker exec -it prestabanco-postgres-container psql -U postgres -d prestabanco
+
+# verificar contenedores en ejecución
+docker ps
