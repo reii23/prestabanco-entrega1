@@ -59,7 +59,7 @@ const CreditSimulation = () => {
                     margin="normal"
                 />
                 <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-                    Calcular Cuota Mensual
+                    Calcular Cuota Mensual (Chile)
                 </Button>
             </form>
                         
