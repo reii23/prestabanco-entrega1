@@ -5,7 +5,8 @@ const Home = () => {
         <div>
             <h1>PrestaBanco App</h1>
             <p>Este sistema le permite gestionar clientes, solicitudes de crédito, y otros aspectos relacionados con los préstamos hipotecarios</p>
-            <p>Use el menú lateral para navegar entre las diferentes secciones.</p>
+            <p>Use el menú lateral para navegar entre las diferentes secciones (Simulación, Registro, Solicitud de Crédito, Costo Total, entre otros)
+            </p>
         </div>
     );
 };
